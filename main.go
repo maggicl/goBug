@@ -20,6 +20,8 @@ var PremuraIniziale int = 10
 var AgeMaxInizio int = 30
 var Clock uint
 var NumClock uint
+var ValoreNutrizionale int =10
+var ValoreNutrizionaleCarcassa int =5
 
 func main() { //FUNZIONE MAIN
 	Clock = 1
@@ -57,7 +59,7 @@ func main() { //FUNZIONE MAIN
 			case 2:
 				Matrix[i][j] = new(Element) // cibo
 				Matrix[i][j].IsFood = true
-				Matrix[i][j].Health = 10
+				Matrix[i][j].Health = ValoreNutrizionale
 			}
 		}
 	}
@@ -93,6 +95,9 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 
 	if elemento.Health<=0 {
 		Matrix[h][w] = nil
+		Matrix[h][w] = new(Element) // sostituisce con la carcassa
+		Matrix[h][w].IsFood = true
+		Matrix[h][w].Health = ValoreNutrizionaleCarcassa
 		return
 	} else {
 		elemento.Age++
@@ -100,6 +105,9 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 
 	if elemento.Age>Matrix[h][w].AgeMax {
 		Matrix[h][w] = nil
+		Matrix[h][w] = new(Element) // sostituisce con la carcassa
+		Matrix[h][w].IsFood = true
+		Matrix[h][w].Health = ValoreNutrizionaleCarcassa
 		return
 	}
 	direzCasOriz := rand.Intn(3) //numero da 0 a 2
