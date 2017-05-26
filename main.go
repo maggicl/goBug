@@ -8,13 +8,14 @@ import (
 	"time"
 )
 
+//VARIABILI
 var Matrix [][]*Element
 var Altezza int
 var Larghezza int
 var SaluteIniziale int
 var Clock uint
 
-func main() {
+func main() {	//FUNZIONE MAIN
 	SaluteIniziale = 50
 	height, err := strconv.Atoi(os.Args[1])
 	if err != nil {
@@ -52,7 +53,7 @@ func main() {
 	go aggiorna()
 }
 
-func aggiorna() {
+func aggiorna() {	//FUNZIONE AGGIORNA:	chiama la funzione muovi
 	for {
 		for i := 0; i<Altezza ; i++ {
 			for j := 0; j<Larghezza ; j++ {
@@ -63,34 +64,34 @@ func aggiorna() {
 	}
 }
 
-func muovi(h int, w int) { // h verticale, w orizzontale
-	elemento := Matrix[h][w]
-	if elemento == nil && elemento.IsFood {
+func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli oggetti in tabella	// h verticale, w orizzontale
+	elemento := Matrix[h][w]	//assegnamente del contenuto della cella in 'elemento'
+	if elemento == nil && elemento.IsFood {	//controllo se 'elemento' è cibo o un altro essere
 		return
 	}
 	direzCasOriz := rand.Intn(2)
 	direzCasOriz--
 	direzCasVert := rand.Intn(2)
 	direzCasVert--
-	nuovaPosizioneH := h + direzCasVert
-	nuovaPosizioneW := w + direzCasOriz
-	if nuovaPosizioneH > Altezza || nuovaPosizioneH < 0 {
+	nuovaPosizioneH := h + direzCasVert	//aggiornamento posiozione verticale
+	nuovaPosizioneW := w + direzCasOriz	//aggiornamento posizione orizzontale
+	if nuovaPosizioneH > Altezza || nuovaPosizioneH < 0 {	//se esce dai bordi verticali
 		muovi(h, w)
 	}
 
-	if nuovaPosizioneW > Larghezza || nuovaPosizioneW < 0 {
+	if nuovaPosizioneW > Larghezza || nuovaPosizioneW < 0 {	//se esce dai bordi orizzontali
 		muovi(h, w)
 	}
 
 	if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
 		if tmpNewElem.IsFood || tmpNewElem.Health < elemento.Health { // se e' cibo o un insetto piu debole
-			elemento.Health += tmpNewElem.Health
-			Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
+			elemento.Health += tmpNewElem.Health	//prelevamento energia essere fagocitato
+			Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento	//inglobamento essere perito
 		} else {
-			Matrix[h][w] = nil
-			tmpNewElem.Health += elemento.Health
+			Matrix[h][w] = nil	//perdita nel combattimento per la sopravvivenza
+			tmpNewElem.Health += elemento.Health	//il nemico prende l'energia
 		}
-	} else {
+	} else {	//si muove sulla nuova casella
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
 		Matrix[h][w] = nil
 	}
