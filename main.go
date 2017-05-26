@@ -88,20 +88,26 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		return
 	}
 
-	fmt.Println(nuovaPosizioneH, nuovaPosizioneW)
-
 	if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
-		if tmpNewElem.IsFood || tmpNewElem.Health < elemento.Health { // se e' cibo o un insetto piu debole
-			elemento.Health += tmpNewElem.Health                //prelevamento energia essere fagocitato
-			Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento //inglobamento essere perito
-		} else {
-			Matrix[h][w] = nil                   //perdita nel combattimento per la sopravvivenza
-			tmpNewElem.Health += elemento.Health //il nemico prende l'energia
+		if tmpNewElem.Razza!=elemento.Razza {		//se non è dalla stessa razza
+			if tmpNewElem.IsFood || (tmpNewElem.Health+tmpNewElem.Evoluzione) < (elemento.Health+elemento.Evoluzione) { // se e' cibo o un insetto piu debole
+				elemento.Health += tmpNewElem.Health	//prelevamento energia essere fagocitato
+				Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento	//inglobamento essere peritos
+			} else {
+				Matrix[h][w] = nil	//perdita nel combattimento per la sopravvivenza
+				tmpNewElem.Health += elemento.Health	//il nemico prende l'energia
+			}
+		} else {	//se sono amici
+			if nuovaPosizioneH==h && nuovaPosizioneW==w {	//se cerca di mangiare il suo amico
+				muovi(h, w)
+			}
 		}
 	} else { //si muove sulla nuova casella
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
 		Matrix[h][w] = nil
 	}
+
+
 }
 
 func stampaMatrice() {
