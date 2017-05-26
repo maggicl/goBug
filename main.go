@@ -5,12 +5,14 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
+	"time"
 )
 
 var Matrix [][]*Element
 var Altezza int
 var Lunghezza int
 var SaluteIniziale int
+var Clock uint
 
 func main() {
 	SaluteIniziale = 50
@@ -46,6 +48,15 @@ func main() {
 	}
 
 	fmt.Println(Matrix)
+
+	go aggiorna()
+}
+
+func aggiorna() {
+	for {
+
+		time.Sleep(time.Second * time.Duration(Clock))
+	}
 }
 
 func muovi(h int, w int) { // h verticale, w orizzontale

@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-type Element struct {
+type Element struct { //struttura che contiene sia cibo sia amebe
 	IsFood bool
 	Health int
 	Age    int
