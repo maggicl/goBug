@@ -16,5 +16,9 @@ func handlerRoot(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
-	templ.Execute(w, new(interface{}))
+	varmap := map[string]interface{}{
+		"matrice":       Matrix,
+		"tempoAggiorna": Clock,
+	}
+	templ.Execute(w, varmap)
 }
