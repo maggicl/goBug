@@ -17,7 +17,7 @@ var CostoMovIniziale int = 5
 var CostoSexIniziale int = 100
 var EvoluzioneIniziale int = 0
 var PremuraIniziale int = 10
-var AgeLimite int = 30
+var AgeMaxInizio int = 30
 var Clock uint
 var NumClock uint
 
@@ -50,6 +50,7 @@ func main() { //FUNZIONE MAIN
 				Matrix[i][j].CostoSex = CostoSexIniziale
 				Matrix[i][j].Evoluzione = EvoluzioneIniziale
 				Matrix[i][j].Premura = PremuraIniziale
+				Matrix[i][j].AgeMax = AgeMaxInizio
 				Matrix[i][j].Razza = rand.Intn(2)
 			case 1:
 				Matrix[i][j] = nil //vuota
@@ -92,9 +93,11 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	if elemento.Health<=0 {
 		Matrix[h][w] = nil
 		return
+	} else {
+		elemento.Age++
 	}
 
-	if elemento.Age>AgeLimite {
+	if elemento.Age>Matrix[h][w].AgeMax {
 		Matrix[h][w] = nil
 		return
 	}
@@ -116,8 +119,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 				Matrix[h][w].Health += Matrix[nuovaPosizioneH][nuovaPosizioneW].Health                //prelevamento energia essere fagocitato
 				Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w] //inglobamento essere perito
 				Matrix[h][w] = nil
-				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov
-				Matrix[nuovaPosizioneH][nuovaPosizioneW].Age++
+				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= (Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov+(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione)*5)
 			} else {	//perdita nel combattimento per la sopravvivenza
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health += Matrix[h][w].Health //il nemico prende l'energia
 				Matrix[h][w] = nil
@@ -129,23 +131,26 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		}
 	} else { //si muove sulla nuova casella
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w]
-		Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov
-		Matrix[nuovaPosizioneH][nuovaPosizioneW].Age++
+		Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov+(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione)*5
 		Matrix[h][w] = nil
 
 		if rand.Intn(10) == 0 { //se ha fortuna (o sfortuna) si evolve
 			if rand.Intn(3) == 0 {
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione--
+				Matrix[nuovaPosizioneH][nuovaPosizioneW].AgeMax-=5
 			} else {
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione++
+				Matrix[nuovaPosizioneH][nuovaPosizioneW].AgeMax+=10
 			}
 		}
 
 		if (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health-(Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura)*10)>Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex {		//se ha energia a sufficienza per riprodursi
-			Matrix[h][w] = Costruttore(Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza, Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex, Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura, SaluteIniziale)
+			Matrix[h][w] = Costruttore(Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza, Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex, Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura, SaluteIniziale, AgeMaxInizio)
 		}
 
 	}
+
+
 }
 
 func stampaMatrice() {
