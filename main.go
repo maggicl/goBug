@@ -76,9 +76,9 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	if elemento == nil || elemento.IsFood { //controllo se 'elemento' è cibo o un altro essere
 		return
 	}
-	direzCasOriz := rand.Intn(2)
+	direzCasOriz := rand.Intn(3)	//numero da 0 a 2
 	direzCasOriz--
-	direzCasVert := rand.Intn(2)
+	direzCasVert := rand.Intn(3)
 	direzCasVert--
 	nuovaPosizioneH := h + direzCasVert //aggiornamento posiozione verticale
 	nuovaPosizioneW := w + direzCasOriz //aggiornamento posizione orizzontale
@@ -107,6 +107,14 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
 		Matrix[h][w] = nil
 		elemento.Health-=elemento.CostoMov
+
+		if rand.Intn(10)==0 {	//se ha fortuna (o sfortuna) si evolve
+			if rand.Intn(3)==0 {
+				elemento.Evoluzione--
+			} else {
+				elemento.Evoluzione++
+			}
+		}
 
 		if (elemento.Health-elemento.Premura)>elemento.CostoSex {		//se ha energia a sufficienza per riprodursi
 			riproduci(h, w)
