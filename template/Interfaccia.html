@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+		<!--<img src="/static/CellaVerde.png">
+		<img src="/static/cellaRossa.png">-->
 		<link href="https://fonts.googleapis.com/css?family=Hammersmith+One" rel="stylesheet">
 		<style type="text/css">
 			body {
@@ -40,6 +42,8 @@
 				text-align: center;
 				vertical-align: middle;
 				width: calc((70vw / {{.larghezza}}) - 3px);
+				color: black;
+				font-weight: bold;
 				min-height: calc(((100vw - 4em) / {{.altezza}}) - 8px);
 				height: 3em;
 			}
@@ -48,11 +52,13 @@
 				padding: 0px;
 			}
 			.razza1 {
-				background: #00ff00;
+				background-image: url("/static/cellaVerde.png");
+				background-size: 200% 400%;
 				padding: 0px;
 			}
 			.razza2 {
-				background: #FF0000;
+				background-image: url("/static/cellaRossa.png");
+				background-size: 200% 400%;
 				padding: 0px;
 			}
 			div.tabella {
