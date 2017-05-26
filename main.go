@@ -14,9 +14,12 @@ var Altezza int
 var Larghezza int
 var SaluteIniziale int
 var Clock uint
+var NumClock uint
 
-func main() {	//FUNZIONE MAIN
+func main() { //FUNZIONE MAIN
 	SaluteIniziale = 50
+	Clock = 1
+	NumClock = 0
 	height, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		panic("height not valid")
@@ -47,40 +50,41 @@ func main() {	//FUNZIONE MAIN
 			}
 		}
 	}
+	fmt.Println("Situazione iniziale: ")
+	stampaMatrice()
 
-	fmt.Println(Matrix)
-
-	go aggiorna()
+	aggiorna()
 }
 
-func aggiorna() {	//FUNZIONE AGGIORNA:	chiama la funzione muovi
+func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
 	for {
-		for i := 0; i<Altezza ; i++ {
-			for j := 0; j<Larghezza ; j++ {
-				muovi(i,j)
+		time.Sleep(time.Second * time.Duration(Clock))
+		NumClock++
+		for i := 0; i < Altezza; i++ {
+			for j := 0; j < Larghezza; j++ {
+				muovi(i, j)
 			}
 		}
-		time.Sleep(time.Second * time.Duration(Clock))
+		fmt.Printf("\nSituazione dopo %d movimenti:\n", NumClock)
+		stampaMatrice()
 	}
 }
 
 func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli oggetti in tabella	// h verticale, w orizzontale
-	elemento := Matrix[h][w]	//assegnamente del contenuto della cella in 'elemento'
-	if elemento == nil && elemento.IsFood {	//controllo se 'elemento' è cibo o un altro essere
+	elemento := Matrix[h][w]                //assegnamente del contenuto della cella in 'elemento'
+	if elemento == nil || elemento.IsFood { //controllo se 'elemento' è cibo o un altro essere
 		return
 	}
 	direzCasOriz := rand.Intn(2)
 	direzCasOriz--
 	direzCasVert := rand.Intn(2)
 	direzCasVert--
-	nuovaPosizioneH := h + direzCasVert	//aggiornamento posiozione verticale
-	nuovaPosizioneW := w + direzCasOriz	//aggiornamento posizione orizzontale
-	if nuovaPosizioneH > Altezza || nuovaPosizioneH < 0 {	//se esce dai bordi verticali
-		muovi(h, w)
-	}
+	nuovaPosizioneH := h + direzCasVert //aggiornamento posiozione verticale
+	nuovaPosizioneW := w + direzCasOriz //aggiornamento posizione orizzontale
 
-	if nuovaPosizioneW > Larghezza || nuovaPosizioneW < 0 {	//se esce dai bordi orizzontali
-		muovi(h, w)
+	if nuovaPosizioneH >= Altezza || nuovaPosizioneH < 0 ||
+		nuovaPosizioneW >= Larghezza || nuovaPosizioneW < 0 { //se esce dai bordi
+		return
 	}
 
 	if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
@@ -97,10 +101,26 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 				muovi(h, w)
 			}
 		}
-	} else {	//si muove sulla nuova casella
+	} else { //si muove sulla nuova casella
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
 		Matrix[h][w] = nil
 	}
 
 
+}
+
+func stampaMatrice() {
+	for i := 0; i < Altezza; i++ {
+		fmt.Printf("Riga %d:\n", i)
+		for j := 0; j < Larghezza; j++ {
+			var stringa string
+			elem := Matrix[i][j]
+			if elem == nil {
+				stringa = "Vuota"
+			} else {
+				stringa = elem.String()
+			}
+			fmt.Printf("  Colonna %d: %s\n", j, stringa)
+		}
+	}
 }
