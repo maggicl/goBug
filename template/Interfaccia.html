@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<title>GoBug</title>
-		<meta http-equiv="refresh" content="{{ .tempoAggiorna }}">
+		<!--meta http-equiv="refresh" content="{{ .tempoAggiorna }}"-->
 		<meta charset="UTF-8">
 		<style type="text/css">
 			h1,h2,h3,h4 {
@@ -9,16 +9,13 @@
 			   text-align: center;
 				 font-size:2.4em;
 			}
-
 			p {
 			   color: white;
 				 font-size:2em;
 			}
-
 			body {
 				background: #009999;
 			}
-			
 			table {
 				border: 1px solid white;
 				empty-cells: show;
@@ -27,37 +24,33 @@
 				width:100%;
 				height: 100%;
 			}
-
 			div {
 				width:20%;
 				height: 89%;
-				background-color:#006666;
+				background-color: #006666;
 			}
-
 			td,tr {
 				background: white;
-				padding: 0px
+				padding: 0px;
 			}
-
-			td.cibo {
+			.cibo {
 				background: #FFFF33;
-				padding: 0px
+				padding: 0px;
 			}
-
-			td.razza1 {
+			.razza1 {
 				background: #00ff00;
-				padding: 0px
+				padding: 0px;
 			}
-
-			td.razza2 {
+			.razza2 {
 				background: #FF0000;
-				padding: 0px
+				padding: 0px;
 			}
 		</style>
 	</head>
 	<body>
 		<h1>Go bug</h1>
 		<div style="float:left; display:block; width:70%; height:89%; ">
+			<table>
 			{{range $riga := .matrice}}
 				<tr>
 				{{range $cella := $riga}}
@@ -69,8 +62,7 @@
 						{{ else }}
 						class="razza1"
 						{{ end }}
-					{{ end }}
-					>{{ $cella }}</td>
+					{{ end }}>{{ $cella }}</td>
 				{{ end }}
 			</tr>
 			{{ end }}
