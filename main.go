@@ -102,16 +102,19 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		nuovaPosizioneW >= Larghezza || nuovaPosizioneW < 0 { //se esce dai bordi
 		return
 	}
+
 	tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]
+
 	if tmpNewElem != nil {
 		if tmpNewElem.Razza != elemento.Razza { //se non è dalla stessa razza
 			if tmpNewElem.IsFood || (tmpNewElem.Health+tmpNewElem.Evoluzione) < (elemento.Health+elemento.Evoluzione) { // se e' cibo o un insetto piu debole
 				elemento.Health += tmpNewElem.Health                //prelevamento energia essere fagocitato
-				Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento //inglobamento essere perito
-				elemento.Health -= elemento.CostoMov
-			} else {
-				Matrix[h][w] = nil                   //perdita nel combattimento per la sopravvivenza
+				tmpNewElem = elemento //inglobamento essere perito
+				elemento = nil
+				tmpNewElem.Health -= tmpNewElem.CostoMov
+			} else {	//perdita nel combattimento per la sopravvivenza
 				tmpNewElem.Health += elemento.Health //il nemico prende l'energia
+				elemento = nil
 			}
 		} else { //se sono amici
 			if nuovaPosizioneH == h && nuovaPosizioneW == w { //se cerca di mangiare il suo amico
@@ -119,20 +122,20 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 			}
 		}
 	} else { //si muove sulla nuova casella
-		Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w]
-		Matrix[h][w] = nil
-		Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov
+		tmpNewElem = elemento
+		elemento = nil
+		tmpNewElem.Health -= tmpNewElem.CostoMov
 
-		if rand.Intn(10) == 0 { //se ha fortuna (o sfortuna) si evolve
+		/*if rand.Intn(10) == 0 { //se ha fortuna (o sfortuna) si evolve
 			if rand.Intn(3) == 0 {
-				Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione--
+				tmpNewElem.Evoluzione--
 			} else {
-				Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione++
+				tmpNewElem.Evoluzione++
 			}
-		}
+		}*/
 
-		if (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health-Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura)>Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex {		//se ha energia a sufficienza per riprodursi
-			//Matrix[h][w] = Costruttore(elemento.Razza, elemento.Evoluzione, elemento.CostoMov, elemento.CostoSex, elemento.Premura, SaluteIniziale)
+		if (tmpNewElem.Health-tmpNewElem.Premura)>tmpNewElem.CostoSex {		//se ha energia a sufficienza per riprodursi
+			//tmpNewElem = Costruttore(elemento.Razza, elemento.Evoluzione, elemento.CostoMov, elemento.CostoSex, elemento.Premura, SaluteIniziale)
 		}
 
 	}
