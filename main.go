@@ -54,7 +54,11 @@ func main() {
 
 func aggiorna() {
 	for {
-
+		for i := 0; i<Altezza ; i++ {
+			for j := 0; j<Larghezza ; j++ {
+				muovi(i,j)
+			}
+		}
 		time.Sleep(time.Second * time.Duration(Clock))
 	}
 }
