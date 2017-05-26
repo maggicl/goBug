@@ -12,7 +12,7 @@ func ServiHTML() {
 }
 
 func handlerRoot(w http.ResponseWriter, r *http.Request) {
-	templ, err := template.ParseFiles("template/hello.html")
+	templ, err := template.ParseFiles("template/Interfaccia.html")
 	if err != nil {
 		panic(err.Error())
 	}
