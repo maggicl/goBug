@@ -14,6 +14,7 @@ func ServiHTML() {
 		"tempoAggiorna": Clock,
 		"larghezza":     Larghezza,
 		"altezza":       Altezza,
+		
 	}
 	http.HandleFunc("/tabella", handlerRoot("template/tabella.html"))
 	http.HandleFunc("/", handlerRoot("template/Interfaccia.html"))

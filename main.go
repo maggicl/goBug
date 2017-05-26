@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"os"
-	"strconv"
 	"time"
+	"os"
+	"os/exec"
 )
 
 //VARIABILI
+var Start bool = false
 var Matrix [][]*Element
 var Altezza int
 var Larghezza int
@@ -27,7 +28,7 @@ func main() { //FUNZIONE MAIN
 	Clock = 1
 	NumClock = 0
 	rand.Seed(time.Now().UTC().UnixNano()) //inizializzazione rand
-	height, err := strconv.Atoi(os.Args[1])
+	/*height, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		panic("height not valid")
 	}
@@ -36,10 +37,25 @@ func main() { //FUNZIONE MAIN
 		panic("width not valid")
 	}
 	Altezza = height
-	Larghezza = width
-	Matrix = make([][]*Element, height)
+	Larghezza = width*/
+	cmd := exec.Command("cmd", "/c", "cls")
+  cmd.Stdout = os.Stdout
+  cmd.Run()
+	fmt.Println("Inserisci altezza mondo: ")
+	fmt.Scan(&Altezza)
+	fmt.Println("Inserisci larghezza mondo: ")
+	fmt.Scan(&Larghezza)
+	fmt.Println("Inserisci la salute iniziale: ")
+	fmt.Scan(&SaluteIniziale)
+	/*fmt.Println("Inserisci il costo di uno spostamento iniziale: ")
+	fmt.Scan(&SaluteIniziale)
+	fmt.Println("Inserisci il costo di una riproduzione iniziale: ")
+	fmt.Scan(&SaluteIniziale)*/
+	fmt.Println("Inserisci gli anni di vita massimi: ")
+	fmt.Scan(&AgeMaxInizio)
+	Matrix = make([][]*Element, Altezza)
 	for i := range Matrix { // inizializzazione matrice
-		Matrix[i] = make([]*Element, width)
+		Matrix[i] = make([]*Element, Larghezza)
 		for j := range Matrix[i] {
 			chose := rand.Intn(3) //scelta rando cibo bug o vuoto (null)
 			switch chose {
@@ -68,8 +84,9 @@ func main() { //FUNZIONE MAIN
 
 	fmt.Println("Situazione iniziale: ")
 	stampaMatrice()
-
 	aggiorna()
+
+
 }
 
 func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
@@ -163,8 +180,8 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 
 	}
 
-
 }
+
 
 func stampaMatrice() {
 
