@@ -20,6 +20,7 @@ func main() { //FUNZIONE MAIN
 	SaluteIniziale = 50
 	Clock = 1
 	NumClock = 0
+	rand.Seed(time.Now().UTC().UnixNano()) //inizializzazione rand
 	height, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		panic("height not valid")
@@ -34,7 +35,7 @@ func main() { //FUNZIONE MAIN
 	for i := range Matrix { // inizializzazione matrice
 		Matrix[i] = make([]*Element, width)
 		for j := range Matrix[i] {
-			chose := rand.Intn(2) //scelta rando cibo bug o vuoto (null)
+			chose := rand.Intn(3) //scelta rando cibo bug o vuoto (null)
 			switch chose {
 			case 0:
 				Matrix[i][j] = new(Element) // insetto
