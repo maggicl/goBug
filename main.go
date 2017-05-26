@@ -117,13 +117,13 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		}
 
 		if (elemento.Health-elemento.Premura)>elemento.CostoSex {		//se ha energia a sufficienza per riprodursi
-			riproduci(h, w)
+			Matrix[h][w] = Costruttore(elemento.Razza, elemento.Evoluzione, elemento.CostoMov, elemento.CostoSex, elemento.Premura)
 		}
 
 	}
 }
 
-func stampaMatrice() {
+func stampaMatrice2() {
 	for i := 0; i < Altezza; i++ {
 		fmt.Printf("Riga %d:\n", i)
 		for j := 0; j < Larghezza; j++ {
@@ -139,6 +139,16 @@ func stampaMatrice() {
 	}
 }
 
-func riproduci(h int, w int) {
-
+func stampaMatrice() {
+	for i := 0; i < Altezza; i++ {
+		for j := 0; j < Larghezza; j++ {
+			if Matrix[i][j]!=nil {
+				fmt.Printf("0 ")
+			} else {
+				fmt.Printf("1 ")
+			}
+			fmt.Printf("  Colonna %d: %s\n")
+		}
+		fmt.Printf("\n")
+	}
 }

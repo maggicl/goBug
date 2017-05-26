@@ -16,3 +16,16 @@ type Element struct { //struttura che contiene sia cibo sia amebe
 func (e Element) String() string {
 	return fmt.Sprintf("<E'Cibo=%t Salute=%d Eta=%d>", e.IsFood, e.Health, e.Age)
 }
+
+func Costruttore(razza string, evoluzione int, costomov int, costosex int, premura int) *Element {
+	nuovo := new(Element)
+	nuovo.IsFood=false
+	nuovo.Health=100
+	nuovo.Age=0
+	nuovo.Razza=razza
+	nuovo.Evoluzione=evoluzione
+	nuovo.CostoMov=costomov
+	nuovo.CostoSex=costosex
+	nuovo.Premura=premura
+	return nuovo
+}
