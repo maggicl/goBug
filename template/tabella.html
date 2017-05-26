@@ -13,7 +13,12 @@
         {{ else }}
         class="razza2"
         {{ end }}
-      {{ end }}>{{ $cella.Evoluzione }} <br> {{ $cella.Health }}</td>
+      {{ end }}>
+      {{ if $cella.IsFood }}
+        {{ $cella.Health }}
+      {{ else }}
+        {{ $cella.Evoluzione }} - {{ $cella.Health }}
+      {{ end }}</td>
     {{ end }}
   {{ end }}
 </tr>

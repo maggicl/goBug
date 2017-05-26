@@ -40,7 +40,8 @@
 				text-align: center;
 				vertical-align: middle;
 				width: calc((70vw / {{.larghezza}}) - 3px);
-				height: calc(((100vh - 8em) / {{.altezza}}) - 8px);
+				min-height: calc(((100vw - 4em) / {{.altezza}}) - 8px);
+				height: 3em;
 			}
 			.cibo {
 				background: #FFFF33;
