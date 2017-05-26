@@ -112,7 +112,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 
 	if Matrix[nuovaPosizioneH][nuovaPosizioneW] != nil {
 		if Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza != Matrix[h][w].Razza { //se non è dalla stessa razza
-			if Matrix[nuovaPosizioneH][nuovaPosizioneW].IsFood || (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health+Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione) < (Matrix[h][w].Health+elemento.Evoluzione) { // se e' cibo o un insetto piu debole
+			if Matrix[nuovaPosizioneH][nuovaPosizioneW].IsFood || (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health+(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione*5)) < (Matrix[h][w].Health+(Matrix[h][w].Evoluzione)*5) { // se e' cibo o un insetto piu debole
 				Matrix[h][w].Health += Matrix[nuovaPosizioneH][nuovaPosizioneW].Health                //prelevamento energia essere fagocitato
 				Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w] //inglobamento essere perito
 				Matrix[h][w] = nil
@@ -152,16 +152,15 @@ func stampaMatrice() {
 	for i := 0; i < Altezza; i++ {
 		for j := 0; j < Larghezza; j++ {
 			if Matrix[i][j] == nil {
-				fmt.Printf("    --  ")
+				fmt.Printf("   --  ")
 			} else {
 				if Matrix[i][j].IsFood {
-					fmt.Printf("    CC  ")
+					fmt.Printf("   CC  ")
 				} else {
 					fmt.Printf("%d   %d  ",Matrix[i][j].Razza, Matrix[i][j].Health)
 				}
 			}
 		}
 		fmt.Printf("\n")
-
 	}
 }
