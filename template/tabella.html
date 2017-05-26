@@ -8,7 +8,11 @@
       {{ if $cella.IsFood }}
       class="cibo"
       {{ else }}
-      class="razza1"
+        {{ if eq $cella.Razza 0 }}
+        class="razza1"
+        {{ else }}
+        class="razza2"
+        {{ end }}
       {{ end }}>{{ $cella.Health }}</td>
     {{ end }}
   {{ end }}
