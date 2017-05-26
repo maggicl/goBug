@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>GoBug</title>
+		<meta http-equiv="refresh" content="{{ .tempoAggiorna }}">
 		<meta charset="UTF-8">
 		<style type="text/css">
 				h1,h2,h3,h4,p {
@@ -39,18 +40,24 @@
 		</style>
 	</head>
 	<body>
-			<h1> Go bug</h1>
-			<table>
-	  <tr>
-	    <td class="cibo"></th>
-	    <td class="razza1"></td>
-	    <td class="razza2"></td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td></td>
-	    <td></td>
-	  </tr>
+	<h1>Go bug</h1>
+	<table>
+		{{range $riga := .matrice}}
+			<tr>
+			{{range $cella := $riga}}
+	    	<td {{ if not $cella }}
+				class="vuoto"
+				{{ else }}
+					{{ if $cella.IsFood }}
+					class="razza1"
+					{{ else }}
+					class="razza2"
+					{{ end }}
+				{{ end }}
+				>{{ $cella }}</td>
+			{{ end }}
+		</tr>
+		{{ end }}
 	</table>
   </body>
 </html>
