@@ -10,7 +10,7 @@ import (
 
 var Matrix [][]*Element
 var Altezza int
-var Lunghezza int
+var Larghezza int
 var SaluteIniziale int
 var Clock uint
 
@@ -24,8 +24,8 @@ func main() {
 	if err2 != nil {
 		panic("width not valid")
 	}
-  Altezza = height
-  Lunghezza  width
+	Altezza = height
+	Larghezza = width
 	Matrix = make([][]*Element, height)
 	for i := range Matrix { // inizializzazione matrice
 		Matrix[i] = make([]*Element, width)
@@ -68,26 +68,26 @@ func muovi(h int, w int) { // h verticale, w orizzontale
 	direzCasOriz--
 	direzCasVert := rand.Intn(2)
 	direzCasVert--
-  nuovaPosizioneH = h + direzCasVert
-  nuovaPosizioneW =w + direzCasOriz
-  if nuovaPosizioneH > Altezza || nuovaPosizioneH  < 0 {
-    muovi(h, w)
-  }
+	nuovaPosizioneH := h + direzCasVert
+	nuovaPosizioneW := w + direzCasOriz
+	if nuovaPosizioneH > Altezza || nuovaPosizioneH < 0 {
+		muovi(h, w)
+	}
 
-  if nuovaPosizioneW > larghezza || nuovaPosizioneW < 0 {
-    muovi(h, w)
-  }
+	if nuovaPosizioneW > Larghezza || nuovaPosizioneW < 0 {
+		muovi(h, w)
+	}
 
-  if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
-    if tmpNewElem.IsFood || tmpNewElem.Health < elemento.Health { // se e' cibo o un insetto piu debole
-      elemento.Health += tmpNewElem.Health
-      Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
-    } else {
-      Matrix[h][w] = nil
-      tmpNewElem.Health += elemento.Health
-    }
-  } else {
-    Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
-    Matrix[h][w] = nil
-  }
+	if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
+		if tmpNewElem.IsFood || tmpNewElem.Health < elemento.Health { // se e' cibo o un insetto piu debole
+			elemento.Health += tmpNewElem.Health
+			Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
+		} else {
+			Matrix[h][w] = nil
+			tmpNewElem.Health += elemento.Health
+		}
+	} else {
+		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
+		Matrix[h][w] = nil
+	}
 }
