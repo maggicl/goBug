@@ -46,10 +46,10 @@ func main() {
 			}
 		}
 	}
+	fmt.Println("Situazione iniziale: ")
+	stampaMatrice()
 
-	fmt.Println(Matrix)
-
-	go aggiorna()
+	//go aggiorna()
 }
 
 func aggiorna() {
@@ -61,7 +61,7 @@ func aggiorna() {
 
 func muovi(h int, w int) { // h verticale, w orizzontale
 	elemento := Matrix[h][w]
-	if elemento == nil && elemento.IsFood {
+	if elemento == nil || elemento.IsFood {
 		return
 	}
 	direzCasOriz := rand.Intn(2)
@@ -89,5 +89,21 @@ func muovi(h int, w int) { // h verticale, w orizzontale
 	} else {
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
 		Matrix[h][w] = nil
+	}
+}
+
+func stampaMatrice() {
+	for i := 0; i < Altezza; i++ {
+		fmt.Printf("Riga %d:\n", i)
+		for j := 0; j < Larghezza; j++ {
+			var stringa string
+			elem := Matrix[i][j]
+			if elem == nil {
+				stringa = "Vuota"
+			} else {
+				stringa = elem.String()
+			}
+			fmt.Printf("  Colonna %d: %s\n", j, stringa)
+		}
 	}
 }
