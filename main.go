@@ -94,6 +94,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 
 
 	if elemento.Health<=0 {
+		fmt.Printf("Il soggetto in cella %d, %d è morto di fame\n",h, w)
 		Matrix[h][w] = nil
 		Matrix[h][w] = new(Element) // sostituisce con la carcassa
 		Matrix[h][w].IsFood = true
@@ -104,6 +105,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	}
 
 	if elemento.Age>Matrix[h][w].AgeMax {
+		fmt.Printf("Il soggetto in cella %d, %d è morto di vecchiaia\n",h, w)
 		Matrix[h][w] = nil
 		Matrix[h][w] = new(Element) // sostituisce con la carcassa
 		Matrix[h][w].IsFood = true
@@ -129,9 +131,11 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 				Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w] //inglobamento essere perito
 				Matrix[h][w] = nil
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= (Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov)
+				fmt.Printf("Il soggetto in cella %d, %d ha sconfitto quello in cella %d, %d\n",nuovaPosizioneH, nuovaPosizioneW, h, w)
 			} else {	//perdita nel combattimento per la sopravvivenza
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health += Matrix[h][w].Health //il nemico prende l'energia
 				Matrix[h][w] = nil
+				fmt.Printf("Il soggetto in cella %d, %d ha fallito nel sconfiggere quello in cella %d, %d\n",h, w ,nuovaPosizioneH, nuovaPosizioneW)
 			}
 		} else { //se sono amici
 			if nuovaPosizioneH == h && nuovaPosizioneW == w { //se cerca di mangiare il suo amico
@@ -163,7 +167,8 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 }
 
 func stampaMatrice() {
-	for i := 0; i < Altezza; i++ {
+
+	/*for i := 0; i < Altezza; i++ {
 		for j := 0; j < Larghezza; j++ {
 			if Matrix[i][j] == nil {
 				fmt.Printf("   --  ")
@@ -176,5 +181,5 @@ func stampaMatrice() {
 			}
 		}
 		fmt.Printf("\n")
-	}
+	}*/
 }
