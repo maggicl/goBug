@@ -17,10 +17,10 @@ func (e Element) String() string {
 	return fmt.Sprintf("<E'Cibo=%t Salute=%d Eta=%d>", e.IsFood, e.Health, e.Age)
 }
 
-func Costruttore(razza string, evoluzione int, costomov int, costosex int, premura int) *Element {
+func Costruttore(razza string, evoluzione int, costomov int, costosex int, premura int, salute int) *Element {
 	nuovo := new(Element)
 	nuovo.IsFood=false
-	nuovo.Health=100
+	nuovo.Health=salute
 	nuovo.Age=0
 	nuovo.Razza=razza
 	nuovo.Evoluzione=evoluzione

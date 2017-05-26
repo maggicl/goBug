@@ -119,13 +119,13 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		}
 
 		if (elemento.Health-elemento.Premura)>elemento.CostoSex {		//se ha energia a sufficienza per riprodursi
-			Matrix[h][w] = Costruttore(elemento.Razza, elemento.Evoluzione, elemento.CostoMov, elemento.CostoSex, elemento.Premura)
+			Matrix[h][w] = Costruttore(elemento.Razza, elemento.Evoluzione, elemento.CostoMov, elemento.CostoSex, elemento.Premura, SaluteIniziale)
 		}
 
 	}
 }
 
-func stampaMatrice2() {
+/*func stampaMatrice2() {
 	for i := 0; i < Altezza; i++ {
 		fmt.Printf("Riga %d:\n", i)
 		for j := 0; j < Larghezza; j++ {
@@ -139,17 +139,20 @@ func stampaMatrice2() {
 			fmt.Printf("  Colonna %d: %s\n", j, stringa)
 		}
 	}
-}
+}*/
 
 func stampaMatrice() {
 	for i := 0; i < Altezza; i++ {
 		for j := 0; j < Larghezza; j++ {
-			if Matrix[i][j]!=nil {
-				fmt.Printf("0 ")
+			if Matrix[i][j] == nil {
+				fmt.Printf("-- ")
 			} else {
-				fmt.Printf("1 ")
+				if Matrix[i][j].IsFood {
+					fmt.Printf("CC ")
+				} else {
+					fmt.Printf("%d ", Matrix[i][j].Health)
+				}
 			}
-			fmt.Printf("  Colonna %d: %s\n")
 		}
 		fmt.Printf("\n")
 	}
