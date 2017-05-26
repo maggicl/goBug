@@ -9,7 +9,7 @@ import (
 )
 
 //VARIABILI
-var Start bool = false
+var def int
 var Matrix [][]*Element
 var Altezza int
 var Larghezza int
@@ -45,14 +45,24 @@ func main() { //FUNZIONE MAIN
 	fmt.Scan(&Altezza)
 	fmt.Println("Inserisci larghezza mondo: ")
 	fmt.Scan(&Larghezza)
+	fmt.Println("Inserisci 1 per usare i valori di default o un altro numero per medificarli: ")
+	fmt.Scan(&def)
+	if def!=1{
 	fmt.Println("Inserisci la salute iniziale: ")
 	fmt.Scan(&SaluteIniziale)
-	/*fmt.Println("Inserisci il costo di uno spostamento iniziale: ")
-	fmt.Scan(&SaluteIniziale)
-	fmt.Println("Inserisci il costo di una riproduzione iniziale: ")
-	fmt.Scan(&SaluteIniziale)*/
-	fmt.Println("Inserisci gli anni di vita massimi: ")
+	fmt.Println("Inserisci il costo di uno spostamento iniziale (riduce l'energia ad ogni movimento) [default = 5]: ")
+	fmt.Scan(&CostoMovIniziale)
+	fmt.Println("Inserisci il costo di una riproduzione iniziale (riduce l'energia ad ogni riproduzione) [default = 50]: ")
+	fmt.Scan(&CostoSexIniziale)
+	fmt.Println("Inserisci i secondi di vita massimi (limita la durata della vita) [default = 30]: ")
 	fmt.Scan(&AgeMaxInizio)
+	fmt.Println("Inserisci il valore nutrizionale del cibo (di quanto aumenta l'energia di chi lo mangia) [default = 10]: ")
+	fmt.Scan(&ValoreNutrizionale)
+	fmt.Println("Inserisci il valore nutrizionale delle carcasse (di quanto aumenta l'energia di chi lo mangia) [default = 5]: ")
+	fmt.Scan(&ValoreNutrizionaleCarcassa)
+	fmt.Println("Inserisci il grado di evoluzione iniziale (se maggiore di zero migliora le prestazioni vitali)[default = 0]: ")
+	fmt.Scan(&EvoluzioneIniziale)
+	}
 	Matrix = make([][]*Element, Altezza)
 	for i := range Matrix { // inizializzazione matrice
 		Matrix[i] = make([]*Element, Larghezza)
@@ -129,10 +139,56 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		Matrix[h][w].Health = ValoreNutrizionaleCarcassa
 		return
 	}
-	direzCasOriz := rand.Intn(3) //numero da 0 a 2
-	direzCasOriz--
-	direzCasVert := rand.Intn(3)
-	direzCasVert--
+
+	var h2 int
+	var w2 int
+	var direzCasOriz int
+	var direzCasVert int
+	var trovato bool
+	for i:=0;i<8;i++ {
+		switch i {
+	case 0:
+		h2=-1
+		w2=0
+	case 1:
+		h2=-1
+		w2=1
+	case 2:
+		h2=0
+		w2=1
+	case 3:
+		h2=1
+		w2=1
+	case 4:
+		h2=1
+		w2=0
+	case 5:
+		h2=1
+		w2=-1
+	case 6:
+		h2=0
+		w2=-1
+	case 7:
+		h2=-1
+		w2=-1
+		}
+		if ((h+h2)>=0) && ((h+h2)<Altezza) && ((w+w2)>=0) && ((w+w2)<Larghezza) {
+			if Matrix[h+h2][w+w2]!= nil {
+				if Matrix[h+h2][w+w2].IsFood {
+				direzCasVert= h2;
+				direzCasOriz = w2;
+				trovato=true
+				}
+			}
+		}
+	}
+
+	if !trovato {
+		direzCasVert = rand.Intn(2)
+		direzCasVert--
+		direzCasOriz = rand.Intn(2)
+		direzCasOriz--
+	}
 	nuovaPosizioneH := h + direzCasVert //aggiornamento posiozione verticale
 	nuovaPosizioneW := w + direzCasOriz //aggiornamento posizione orizzontale
 
@@ -142,6 +198,9 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	}
 
 	if Matrix[nuovaPosizioneH][nuovaPosizioneW] != nil {
+
+
+
 		if Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza != Matrix[h][w].Razza { //se non è dalla stessa razza
 			if Matrix[nuovaPosizioneH][nuovaPosizioneW].IsFood || (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health+(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione*5)) < (Matrix[h][w].Health+(Matrix[h][w].Evoluzione)*5) { // se e' cibo o un insetto piu debole
 				Matrix[h][w].Health += Matrix[nuovaPosizioneH][nuovaPosizioneW].Health                //prelevamento energia essere fagocitato
