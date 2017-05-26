@@ -1,0 +1,17 @@
+<table>
+{{range $riga := .matrice}}
+  <tr>
+  {{range $cella := $riga}}
+    <td {{ if not $cella }}
+    class="vuoto"> </td>
+    {{ else }}
+      {{ if $cella.IsFood }}
+      class="cibo"
+      {{ else }}
+      class="razza1"
+      {{ end }}>{{ $cella.Health }}</td>
+    {{ end }}
+  {{ end }}
+</tr>
+{{ end }}
+</table>

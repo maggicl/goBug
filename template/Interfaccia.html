@@ -1,7 +1,6 @@
 <html>
 	<head>
 		<title>GoBug</title>
-		<!--meta http-equiv="refresh" content="{{ .tempoAggiorna }}"-->
 		<meta charset="UTF-8">
 		<link href="https://fonts.googleapis.com/css?family=Hammersmith+One" rel="stylesheet">
 		<style type="text/css">
@@ -75,38 +74,39 @@
 					width: calc((100vw / {{.larghezza}}) - 3px);
 				}
 			}
+		div.colorsample {
+			width: 1em;
+			height: 1em;
+			display: inline-block;
+		}
 		</style>
+		<script>
+			reload = function() {
+				var xhr = new XMLHttpRequest()
+				xhr.open('GET', '/tabella')
+				xhr.send(null)
+				xhr.onreadystatechange = function () {
+				  var DONE = 4, OK = 200
+				  if (xhr.readyState === DONE) {
+				    if (xhr.status === OK)
+							document.getElementById("tb").innerHTML = xhr.responseText
+						else console.log('Error: ' + xhr.status)
+				  }
+				}
+			}
+			window.setInterval(reload, 1000 * {{ .tempoAggiorna }})
+			reload()
+		</script>
 	</head>
 	<body>
-		<h1>Go bug</h1>
-		<main class="clearfix">
-			<div class="tabella">
-				<table>
-				{{range $riga := .matrice}}
-					<tr>
-					{{range $cella := $riga}}
-			    	<td {{ if not $cella }}
-						class="vuoto"> </td>
-						{{ else }}
-							{{ if $cella.IsFood }}
-							class="cibo"
-							{{ else }}
-							class="razza1"
-							{{ end }}>{{ $cella.Health }}</td>
-						{{ end }}
-					{{ end }}
-				</tr>
-				{{ end }}
-			</table>
-		</div>
+	<h1>Go bug</h1>
+	<main class="clearfix">
+		<div id="tb" class="tabella"></div>
 		<div class="legenda">
 			<h1>legenda</h1>
-			<div style="float:left; display:block; width:30%; height:19%; background-color:#FFFF33;"></div>
-			<div style="float:right; display:block; width:65%; height:20%; ">Cibo</div>
-			<div style="float:left; display:block; width:30%; height:20%; background-color:#00ff00;"></div>
-			<div style="float:right; display:block; width:65%; height:20%; ">Razza1</div>
-			<div style="float:left; display:block; width:30%; height:20%; background-color:#F00;"></div>
-			<div style="float:right; display:block; width:65%; height:19%; ">Razza2</div>
+			<div class="colorsample" style="background-color:#FFFF33"></div>&nbsp;Cibo<br>
+			<div class="colorsample" style="background-color:#00ff00"></div>&nbsp;Razza 1<br>
+			<div class="colorsample" style="background-color:#F00"></div>&nbsp;Razza 2
 		</div>
 	</main>
 </body>
