@@ -86,14 +86,14 @@
 					<tr>
 					{{range $cella := $riga}}
 			    	<td {{ if not $cella }}
-						class="vuoto"
+						class="vuoto"> </td>
 						{{ else }}
 							{{ if $cella.IsFood }}
 							class="cibo"
 							{{ else }}
 							class="razza1"
-							{{ end }}
-						{{ end }}>{{ $cella.Health }}</td>
+							{{ end }}>{{ $cella.Health }}</td>
+						{{ end }}
 					{{ end }}
 				</tr>
 				{{ end }}
