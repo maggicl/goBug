@@ -10,6 +10,7 @@ type Element struct { //struttura che contiene sia cibo sia amebe
 	Evoluzione int			//se evolve in positivo avrà un bonus in attacco che viene sommato a Health
 	CostoMov	 int			//quanta energia spende per muoversi
 	CostoSex	 int			//quanto spende per riprodursi
+	Premura	   int			//quanto distacco di energia è necessario per compiere la riproduzione allo scopo di evitare di rimanere a secco
 }
 
 func (e Element) String() string {

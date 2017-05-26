@@ -88,6 +88,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	}
 
 	if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
+
 		if tmpNewElem.Razza!=elemento.Razza {		//se non è dalla stessa razza
 			if tmpNewElem.IsFood || (tmpNewElem.Health+tmpNewElem.Evoluzione) < (elemento.Health+elemento.Evoluzione) { // se e' cibo o un insetto piu debole
 				elemento.Health += tmpNewElem.Health	//prelevamento energia essere fagocitato
@@ -104,9 +105,13 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	} else { //si muove sulla nuova casella
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = elemento
 		Matrix[h][w] = nil
+		elemento.Health-=elemento.CostoMov
+
+		if (elemento.Health-elemento.Premura)>elemento.CostoSex {		//se ha energia a sufficienza per riprodursi
+			riproduci(h, w)
+		}
+
 	}
-
-
 }
 
 func stampaMatrice() {
@@ -123,4 +128,8 @@ func stampaMatrice() {
 			fmt.Printf("  Colonna %d: %s\n", j, stringa)
 		}
 	}
+}
+
+func riproduci(h int, w int) {
+
 }
