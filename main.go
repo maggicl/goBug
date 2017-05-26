@@ -23,6 +23,8 @@ var Clock uint
 var NumClock uint
 var ValoreNutrizionale int =10
 var ValoreNutrizionaleCarcassa int =5
+var ZonaCiboX int
+var ZonaCiboY int
 
 func main() { //FUNZIONE MAIN
 	Clock = 1
@@ -97,6 +99,7 @@ func main() { //FUNZIONE MAIN
 	aggiorna()
 
 
+
 }
 
 func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
@@ -110,6 +113,7 @@ func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
 		}
 		fmt.Printf("\nSituazione dopo %d movimenti:\n", NumClock)
 		stampaMatrice()
+		giraMatrice()
 	}
 }
 
@@ -239,6 +243,69 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 
 	}
 
+}
+
+func giraMatrice(){
+	var conta int=0
+	var contaMax int=0
+	var i int
+	var j int
+	for i=1;i<Altezza-1; i++{
+		for j=1; j<Larghezza-1;j++{
+			if Matrix[i][j]!=nil{
+				if Matrix[i][j].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i-1][j]!=nil{
+				if Matrix[i-1][j].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i-1][j-1]!=nil{
+				if Matrix[i-1][j-1].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i-1][j+1]!=nil{
+				if Matrix[i-1][j+1].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i][j+1]!=nil{
+				if Matrix[i][j+1].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i][j-1]!=nil{
+				if Matrix[i][j-1].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i+1][j-1]!=nil{
+				if Matrix[i+1][j-1].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i+1][j]!=nil{
+				if Matrix[i+1][j].IsFood{
+					conta++;
+				}
+			}
+			if Matrix[i+1][j+1]!=nil{
+				if Matrix[i+1][j+1].IsFood{
+					conta++;
+				}
+			}
+				if conta>contaMax{
+					ZonaCiboX=j
+		 		 ZonaCiboY=i
+				 contaMax=conta
+				}
+				conta=0;
+		}
+	}
+	fmt.Printf("%d %d %d",contaMax,ZonaCiboX,ZonaCiboY)
 }
 
 
