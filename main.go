@@ -14,7 +14,7 @@ var Altezza int
 var Larghezza int
 var SaluteIniziale int = 50
 var CostoMovIniziale int = 5
-var CostoSexIniziale int = 100
+var CostoSexIniziale int = 50
 var EvoluzioneIniziale int = 0
 var PremuraIniziale int = 10
 var AgeMaxInizio int = 30
@@ -57,7 +57,7 @@ func main() { //FUNZIONE MAIN
 			case 2:
 				Matrix[i][j] = new(Element) // cibo
 				Matrix[i][j].IsFood = true
-				Matrix[i][j].Health = 5
+				Matrix[i][j].Health = 10
 			}
 		}
 	}
@@ -119,7 +119,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 				Matrix[h][w].Health += Matrix[nuovaPosizioneH][nuovaPosizioneW].Health                //prelevamento energia essere fagocitato
 				Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w] //inglobamento essere perito
 				Matrix[h][w] = nil
-				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= (Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov+(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione)*5)
+				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= (Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov-(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione))
 			} else {	//perdita nel combattimento per la sopravvivenza
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Health += Matrix[h][w].Health //il nemico prende l'energia
 				Matrix[h][w] = nil
@@ -131,7 +131,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		}
 	} else { //si muove sulla nuova casella
 		Matrix[nuovaPosizioneH][nuovaPosizioneW] = Matrix[h][w]
-		Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov+(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione)*5
+		Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov-(Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione)
 		Matrix[h][w] = nil
 
 		if rand.Intn(10) == 0 { //se ha fortuna (o sfortuna) si evolve
