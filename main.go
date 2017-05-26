@@ -14,9 +14,12 @@ var Altezza int
 var Larghezza int
 var SaluteIniziale int
 var Clock uint
+var NumClock uint
 
 func main() { //FUNZIONE MAIN
 	SaluteIniziale = 50
+	Clock = 1
+	NumClock = 0
 	height, err := strconv.Atoi(os.Args[1])
 	if err != nil {
 		panic("height not valid")
@@ -50,38 +53,41 @@ func main() { //FUNZIONE MAIN
 	fmt.Println("Situazione iniziale: ")
 	stampaMatrice()
 
-	//go aggiorna()
+	aggiorna()
 }
 
 func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
 	for {
+		time.Sleep(time.Second * time.Duration(Clock))
+		NumClock++
 		for i := 0; i < Altezza; i++ {
 			for j := 0; j < Larghezza; j++ {
 				muovi(i, j)
 			}
 		}
-		time.Sleep(time.Second * time.Duration(Clock))
+		fmt.Printf("\nSituazione dopo %d movimenti:\n", NumClock)
+		stampaMatrice()
 	}
 }
 
 func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli oggetti in tabella	// h verticale, w orizzontale
 	elemento := Matrix[h][w]                //assegnamente del contenuto della cella in 'elemento'
-	if elemento == nil && elemento.IsFood { //controllo se 'elemento' è cibo o un altro essere
+	if elemento == nil || elemento.IsFood { //controllo se 'elemento' è cibo o un altro essere
 		return
 	}
 	direzCasOriz := rand.Intn(2)
 	direzCasOriz--
 	direzCasVert := rand.Intn(2)
 	direzCasVert--
-	nuovaPosizioneH := h + direzCasVert                   //aggiornamento posiozione verticale
-	nuovaPosizioneW := w + direzCasOriz                   //aggiornamento posizione orizzontale
-	if nuovaPosizioneH > Altezza || nuovaPosizioneH < 0 { //se esce dai bordi verticali
-		muovi(h, w)
+	nuovaPosizioneH := h + direzCasVert //aggiornamento posiozione verticale
+	nuovaPosizioneW := w + direzCasOriz //aggiornamento posizione orizzontale
+
+	if nuovaPosizioneH >= Altezza || nuovaPosizioneH < 0 ||
+		nuovaPosizioneW >= Larghezza || nuovaPosizioneW < 0 { //se esce dai bordi
+		return
 	}
 
-	if nuovaPosizioneW > Larghezza || nuovaPosizioneW < 0 { //se esce dai bordi orizzontali
-		muovi(h, w)
-	}
+	fmt.Println(nuovaPosizioneH, nuovaPosizioneW)
 
 	if tmpNewElem := Matrix[nuovaPosizioneH][nuovaPosizioneW]; tmpNewElem != nil {
 		if tmpNewElem.IsFood || tmpNewElem.Health < elemento.Health { // se e' cibo o un insetto piu debole
