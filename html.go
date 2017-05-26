@@ -19,6 +19,8 @@ func handlerRoot(w http.ResponseWriter, r *http.Request) {
 	varmap := map[string]interface{}{
 		"matrice":       Matrix,
 		"tempoAggiorna": Clock,
+		"larghezza":     Larghezza,
+		"altezza":       Altezza,
 	}
 	templ.Execute(w, varmap)
 }

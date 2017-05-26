@@ -3,35 +3,45 @@
 		<title>GoBug</title>
 		<!--meta http-equiv="refresh" content="{{ .tempoAggiorna }}"-->
 		<meta charset="UTF-8">
+		<link href="https://fonts.googleapis.com/css?family=Hammersmith+One" rel="stylesheet">
 		<style type="text/css">
+			body {
+				font-family: 'Hammersmith One', sans-serif;
+			}
 			h1,h2,h3,h4 {
 			   color: white;
 			   text-align: center;
-				 font-size:2.4em;
 			}
 			p {
-			   color: white;
-				 font-size:2em;
+			  color: white;
 			}
 			body {
 				background: #009999;
 			}
 			table {
-				border: 1px solid white;
+				table-layout: fixed;
 				empty-cells: show;
-				background: white;
-				padding: 0px;
-				width:100%;
-				height: 100%;
+				font-size: .6em;
 			}
 			div {
-				width:20%;
-				height: 89%;
-				background-color: #006666;
+				float: left;
 			}
-			td,tr {
+			.clearfix:after {
+			  content: "";
+			  display: table;
+			  clear: both;
+			}
+			main {
+				background-color: #00bbbb;
+			}
+			tr, td {
+			}
+			td {
 				background: white;
-				padding: 0px;
+				text-align: center;
+				vertical-align: middle;
+				width: calc((70vw / {{.larghezza}}) - 3px);
+				height: calc(((100vh - 8em) / {{.altezza}}) - 8px);
 			}
 			.cibo {
 				background: #FFFF33;
@@ -45,41 +55,59 @@
 				background: #FF0000;
 				padding: 0px;
 			}
+			div.tabella {
+				float:left;
+				display:block;
+				width: 70vw;
+			}
+			div.legenda {
+				margin-left: 1em;
+				float:left;
+				display:block;
+				width: calc(100% - 70vw - 1em);
+			}
+			@media screen and (max-width: 800px) {
+				div.tabella, div.legenda {
+					margin-left: 0;
+					width: 100%;
+				}
+				td {
+					width: calc((100vw / {{.larghezza}}) - 3px);
+				}
+			}
 		</style>
 	</head>
 	<body>
 		<h1>Go bug</h1>
-		<div style="float:left; display:block; width:70%; height:89%; ">
-			<table>
-			{{range $riga := .matrice}}
-				<tr>
-				{{range $cella := $riga}}
-		    	<td {{ if not $cella }}
-					class="vuoto"
-					{{ else }}
-						{{ if $cella.IsFood }}
-						class="cibo"
+		<main class="clearfix">
+			<div class="tabella">
+				<table>
+				{{range $riga := .matrice}}
+					<tr>
+					{{range $cella := $riga}}
+			    	<td {{ if not $cella }}
+						class="vuoto"
 						{{ else }}
-						class="razza1"
-						{{ end }}
-					{{ end }}>{{ $cella }}</td>
+							{{ if $cella.IsFood }}
+							class="cibo"
+							{{ else }}
+							class="razza1"
+							{{ end }}
+						{{ end }}>{{ $cella.Health }}</td>
+					{{ end }}
+				</tr>
 				{{ end }}
-			</tr>
-			{{ end }}
-		</table>
-	</div>
-	<div style="float:left; display:block; width:1%; height:89%; "></div>
-		<div style="float:left; display:block; width:29%; height:89%; ">
-			<h1>legenda</h1>
-			<div style="float:left; display:block; width:30%; height:20%; background-color:#FFFF33;"></div>
-			<div style="float:right; display:block; width:65%; height:20%; "><p>Food</p></div>
-			<div style="float:right; display:block; width:100%; height:2%; "></div>
-			<div style="float:left; display:block; width:30%; height:20%; background-color:#00ff00;"></div>
-			<div style="float:right; display:block; width:65%; height:20%; "><p>Razza1</p></div>
-			<div style="float:right; display:block; width:100%; height:2%;"></div>
-			<div style="float:left; display:block; width:30%; height:20%; background-color:#F00;"></div>
-			<div style="float:right; display:block; width:65%; height:20%; "><p>Razza2</p></div>
+			</table>
 		</div>
-	</div>
+		<div class="legenda">
+			<h1>legenda</h1>
+			<div style="float:left; display:block; width:30%; height:19%; background-color:#FFFF33;"></div>
+			<div style="float:right; display:block; width:65%; height:20%; ">Cibo</div>
+			<div style="float:left; display:block; width:30%; height:20%; background-color:#00ff00;"></div>
+			<div style="float:right; display:block; width:65%; height:20%; ">Razza1</div>
+			<div style="float:left; display:block; width:30%; height:20%; background-color:#F00;"></div>
+			<div style="float:right; display:block; width:65%; height:19%; ">Razza2</div>
+		</div>
+	</main>
 </body>
 </html>
