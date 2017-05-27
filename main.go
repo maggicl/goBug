@@ -30,7 +30,20 @@ var Supestiti bool=true
 //var ZonaCiboY int
 
 func main() { //FUNZIONE MAIN
-
+	SaluteIniziale [0]=50
+	SaluteIniziale [1]=50
+	CostoMovIniziale [0]=5
+	CostoMovIniziale [1]=5
+	CostoSexIniziale [0]=50
+	CostoSexIniziale [1]=50
+	EvoluzioneIniziale [0]=0
+	EvoluzioneIniziale [1]=0
+	AgeMaxInizio [0]=30
+	AgeMaxInizio [1]=30
+	LivelloSblocco [0]=0
+	LivelloSblocco [1]=0
+	Possibilita [0]=5
+ 	Possibilita [1]=5
 	Clock = 1
 	NumClock = 0
 	rand.Seed(time.Now().UTC().UnixNano()) //inizializzazione rand
@@ -47,42 +60,68 @@ func main() { //FUNZIONE MAIN
 	cmd := exec.Command("cmd", "/c", "cls")
   cmd.Stdout = os.Stdout
   cmd.Run()
-	fmt.Println("Inserisci altezza mondo: ")
+	fmt.Println("\nInserisci altezza mondo [min = 10 | max = 20]: ")
 	fmt.Scan(&Altezza)
-	fmt.Println("Inserisci larghezza mondo: ")
+	if Altezza > 20 {
+		Altezza =20
+	}
+	if Altezza <10 {
+		Altezza =10
+	}
+	fmt.Println("\nInserisci larghezza mondo [min = 10 | max = 20]: ")
 	fmt.Scan(&Larghezza)
-	fmt.Println("Inserisci 1 per usare i valori di default o un altro numero per medificarli: ")
+	if Larghezza > 20 {
+		Larghezza =20
+	}
+	if Larghezza <10 {
+		Larghezza =10
+	}
+	fmt.Println("\nInserisci 1 per usare i valori di default o un altro numero per medificarli: ")
 	fmt.Scan(&def)
 	if def!=1{
-	fmt.Println("Inserisci la salute iniziale: ")
+	fmt.Println("\nInserisci la salute iniziale: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&SaluteIniziale[0])
+	fmt.Println("Razza 2: ")
 	fmt.Scan(&SaluteIniziale[1])
-	fmt.Println("Inserisci il costo di uno spostamento iniziale (riduce l'energia ad ogni movimento) [default = 5]: ")
+	fmt.Println("\nInserisci il costo di uno spostamento iniziale (riduce l'energia ad ogni movimento) [default = 5]: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&CostoMovIniziale[0])
+	fmt.Println("Razza 2: ")
 	fmt.Scan(&CostoMovIniziale[1])
-	fmt.Println("Inserisci il costo di una riproduzione iniziale (riduce l'energia ad ogni riproduzione) [default = 50]: ")
+	fmt.Println("\nInserisci il costo di una riproduzione iniziale (riduce l'energia ad ogni riproduzione) [default = 50]: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&CostoSexIniziale[0])
+	fmt.Println("Razza 2: ")
 	fmt.Scan(&CostoSexIniziale[1])
-	fmt.Println("Inserisci i secondi di vita massimi (limita la durata della vita) [default = 30]: ")
+	fmt.Println("\nInserisci i secondi di vita massimi (limita la durata della vita) [default = 30]: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&AgeMaxInizio[0])
+	fmt.Println("Razza 2: ")
 	fmt.Scan(&AgeMaxInizio[1])
-	fmt.Println("Inserisci il valore nutrizionale del cibo (di quanto aumenta l'energia di chi lo mangia) [default = 10]: ")
+	fmt.Println("\nInserisci il valore nutrizionale del cibo (di quanto aumenta l'energia di chi lo mangia) [default = 10]: ")
 	fmt.Scan(&ValoreNutrizionale)
-	fmt.Println("Inserisci il valore nutrizionale delle carcasse (di quanto aumenta l'energia di chi lo mangia) [default = 5]: ")
+	fmt.Println("\nInserisci il valore nutrizionale delle carcasse (di quanto aumenta l'energia di chi lo mangia) [default = 5]: ")
 	fmt.Scan(&ValoreNutrizionaleCarcassa)
-	fmt.Println("Inserisci il grado di evoluzione iniziale (se maggiore di zero migliora le prestazioni vitali)[default = 0]: ")
+	fmt.Println("\nInserisci il grado di evoluzione iniziale (se maggiore di zero migliora le prestazioni vitali)[default = 0]: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&EvoluzioneIniziale[0])
+	fmt.Println("Razza 2: ")
 	fmt.Scan(&EvoluzioneIniziale[1])
-	fmt.Println("Inserisci la possibilità di evoluzione (numero da 1 a 10) [default = 5]: ")
+	fmt.Println("\nInserisci la possibilità di evoluzione (numero da 1 a 10) [default = 10]: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&Possibilita[0])
 	if(Possibilita[0]<1 || Possibilita[0]>10) {
 		Possibilita[0]=1}
+		fmt.Println("Razza 2: ")
 		fmt.Scan(&Possibilita[1])
 	if(Possibilita[1]<1 || Possibilita[1]>10) {
 		Possibilita[1]=1
 	}
-	fmt.Println("Inserisci il livello di evoluzione visivo base (il livello evolutivo minimo che permette di vedere il cibo vicino)[default = 1]: ")
+	fmt.Println("\nInserisci il livello di evoluzione visivo base (il livello evolutivo minimo che permette di vedere il cibo vicino)[default = 1]: ")
+	fmt.Println("Razza 1: ")
 	fmt.Scan(&LivelloSblocco[0])
+	fmt.Println("Razza 2: ")
 	fmt.Scan(&LivelloSblocco[1])
 	}
 	Matrix = make([][]*Element, Altezza)
@@ -109,7 +148,7 @@ func main() { //FUNZIONE MAIN
 				Matrix[i][j] = new(Element) // cibo
 				Matrix[i][j].IsFood = true
 				Matrix[i][j].Health = ValoreNutrizionale
-				Matrix[i][j].Razza = 2
+				Matrix[i][j].Razza = 3
 			}
 		}
 	}
