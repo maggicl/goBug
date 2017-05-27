@@ -6,6 +6,7 @@ import (
 	"time"
 	"os"
 	"os/exec"
+
 )
 
 //VARIABILI
@@ -29,6 +30,7 @@ var ZonaCiboX int
 var ZonaCiboY int
 
 func main() { //FUNZIONE MAIN
+
 	Clock = 1
 	NumClock = 0
 	rand.Seed(time.Now().UTC().UnixNano()) //inizializzazione rand
@@ -105,6 +107,7 @@ func main() { //FUNZIONE MAIN
 
 	go ServiHTML() // fai partire il server html
 
+
 	fmt.Println("Situazione iniziale: ")
 	aggiorna()
 
@@ -118,7 +121,8 @@ func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
 		NumClock++
 		for i := 0; i < Altezza; i++ {
 			for j := 0; j < Larghezza; j++ {
-				muovi(i, j)
+					muovi(i, j)
+
 			}
 		}
 		fmt.Printf("\nSituazione dopo %d movimenti:\n", NumClock)
