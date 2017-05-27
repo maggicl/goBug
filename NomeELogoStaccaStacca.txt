@@ -1,0 +1,3 @@
+Stacca Stacca: Il nostro logo rappresenta un ameba, poichè è un microrganismo che si avvicina molto all'idea di evoluzione.
+"Go bug" è il nome del programma, perchè Go è il linguaggio che abbiamo utilizzato per sviluppare il progetto, mentre la parola "bug"
+rappresenta un riferimento alla colonia di individui da simulare .  
