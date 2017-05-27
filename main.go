@@ -6,7 +6,6 @@ import (
 	"time"
 	"os"
 	"os/exec"
-
 )
 
 //VARIABILI
@@ -14,18 +13,18 @@ var def int
 var Matrix [][]*Element
 var Altezza int
 var Larghezza int
-var SaluteIniziale int = 50
-var CostoMovIniziale int = 5
-var CostoSexIniziale int = 50
-var EvoluzioneIniziale int = 0
+var SaluteIniziale [2]int
+var CostoMovIniziale [2]int
+var CostoSexIniziale [2]int
+var EvoluzioneIniziale [2]int
 var PremuraIniziale int = 10
-var AgeMaxInizio int = 30
+var AgeMaxInizio [2]int
 var Clock uint
 var NumClock uint
-var LivelloSblocco int = 1
-var Possibilita int = 5
-var ValoreNutrizionale int =10
-var ValoreNutrizionaleCarcassa int =5
+var LivelloSblocco [2]int
+var Possibilita [2]int
+var ValoreNutrizionale int = 10
+var ValoreNutrizionaleCarcassa int = 5
 var Supestiti bool=true
 //var ZonaCiboX int
 //var ZonaCiboY int
@@ -56,27 +55,35 @@ func main() { //FUNZIONE MAIN
 	fmt.Scan(&def)
 	if def!=1{
 	fmt.Println("Inserisci la salute iniziale: ")
-	fmt.Scan(&SaluteIniziale)
+	fmt.Scan(&SaluteIniziale[0])
+	fmt.Scan(&SaluteIniziale[1])
 	fmt.Println("Inserisci il costo di uno spostamento iniziale (riduce l'energia ad ogni movimento) [default = 5]: ")
-	fmt.Scan(&CostoMovIniziale)
+	fmt.Scan(&CostoMovIniziale[0])
+	fmt.Scan(&CostoMovIniziale[1])
 	fmt.Println("Inserisci il costo di una riproduzione iniziale (riduce l'energia ad ogni riproduzione) [default = 50]: ")
-	fmt.Scan(&CostoSexIniziale)
+	fmt.Scan(&CostoSexIniziale[0])
+	fmt.Scan(&CostoSexIniziale[1])
 	fmt.Println("Inserisci i secondi di vita massimi (limita la durata della vita) [default = 30]: ")
-	fmt.Scan(&AgeMaxInizio)
+	fmt.Scan(&AgeMaxInizio[0])
+	fmt.Scan(&AgeMaxInizio[1])
 	fmt.Println("Inserisci il valore nutrizionale del cibo (di quanto aumenta l'energia di chi lo mangia) [default = 10]: ")
 	fmt.Scan(&ValoreNutrizionale)
 	fmt.Println("Inserisci il valore nutrizionale delle carcasse (di quanto aumenta l'energia di chi lo mangia) [default = 5]: ")
 	fmt.Scan(&ValoreNutrizionaleCarcassa)
 	fmt.Println("Inserisci il grado di evoluzione iniziale (se maggiore di zero migliora le prestazioni vitali)[default = 0]: ")
-	fmt.Scan(&EvoluzioneIniziale)
+	fmt.Scan(&EvoluzioneIniziale[0])
+	fmt.Scan(&EvoluzioneIniziale[1])
 	fmt.Println("Inserisci la possibilità di evoluzione (numero da 1 a 10) [default = 5]: ")
-	fmt.Scan(&Possibilita)
-	if(Possibilita<1 || Possibilita>10) {
-		Possibilita=1
+	fmt.Scan(&Possibilita[0])
+	if(Possibilita[0]<1 || Possibilita[0]>10) {
+		Possibilita[0]=1}
+		fmt.Scan(&Possibilita[1])
+	if(Possibilita[1]<1 || Possibilita[1]>10) {
+		Possibilita[1]=1
 	}
-
 	fmt.Println("Inserisci il livello di evoluzione visivo base (il livello evolutivo minimo che permette di vedere il cibo vicino)[default = 1]: ")
-	fmt.Scan(&LivelloSblocco)
+	fmt.Scan(&LivelloSblocco[0])
+	fmt.Scan(&LivelloSblocco[1])
 	}
 	Matrix = make([][]*Element, Altezza)
 	for i := range Matrix { // inizializzazione matrice
@@ -88,13 +95,14 @@ func main() { //FUNZIONE MAIN
 				Matrix[i][j] = new(Element) // insetto
 				Matrix[i][j].IsFood = false
 				Matrix[i][j].Age = 0
-				Matrix[i][j].Health = SaluteIniziale
-				Matrix[i][j].CostoMov = CostoMovIniziale
-				Matrix[i][j].CostoSex = CostoSexIniziale
-				Matrix[i][j].Evoluzione = EvoluzioneIniziale
-				Matrix[i][j].Premura = PremuraIniziale
-				Matrix[i][j].AgeMax = AgeMaxInizio
 				Matrix[i][j].Razza = rand.Intn(2)
+				Matrix[i][j].Health = SaluteIniziale[Matrix[i][j].Razza]
+				Matrix[i][j].CostoMov = CostoMovIniziale[Matrix[i][j].Razza]
+				Matrix[i][j].CostoSex = CostoSexIniziale[Matrix[i][j].Razza]
+				Matrix[i][j].Evoluzione = EvoluzioneIniziale[Matrix[i][j].Razza]
+				Matrix[i][j].Premura = PremuraIniziale
+				Matrix[i][j].AgeMax = AgeMaxInizio[Matrix[i][j].Razza]
+
 			case 1:
 				Matrix[i][j] = nil //vuota
 			case 2:
@@ -130,9 +138,6 @@ func aggiorna() { //FUNZIONE AGGIORNA:	chiama la funzione muovi
 			}
 		}
 		fmt.Printf("\nSituazione dopo %d movimenti:\n", NumClock)
-
-		stampaMatrice()
-		//giraMatrice()
 
 }
 
@@ -172,7 +177,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 	var direzCasVert int
 	var trovato bool = false
 
-	if Matrix[h][w].Evoluzione>=LivelloSblocco {
+	if Matrix[h][w].Evoluzione>=LivelloSblocco[Matrix[h][w].Razza] {
 	for i:=0;i<8;i++ {
 		switch i {
 	case 0:
@@ -251,7 +256,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		Matrix[nuovaPosizioneH][nuovaPosizioneW].Health -= Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov
 		Matrix[h][w] = nil
 
-		if rand.Intn(Possibilita) == 0 { //se ha fortuna (o sfortuna) si evolve
+		if rand.Intn(Possibilita[Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza]) == 0 { //se ha fortuna (o sfortuna) si evolve
 			if rand.Intn(3) == 0 {
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione--
 				Matrix[nuovaPosizioneH][nuovaPosizioneW].AgeMax-=5
@@ -262,7 +267,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 		}
 
 		if (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health-(Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura)*10)>Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex {		//se ha energia a sufficienza per riprodursi
-			Matrix[h][w] = Costruttore(Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza, Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex, Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura, SaluteIniziale, AgeMaxInizio)
+			Matrix[h][w] = Costruttore(Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza, Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex, Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura, SaluteIniziale[Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza], AgeMaxInizio[Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza])
 		}
 
 	}
