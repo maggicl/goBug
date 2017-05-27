@@ -15,7 +15,7 @@ var Altezza int
 var Larghezza int
 var SaluteIniziale int = 50
 var CostoMovIniziale int = 5
-var CostoSexIniziale int = 50
+var CostoSexIniziale int = 40
 var EvoluzioneIniziale int = 0
 var PremuraIniziale int = 10
 var AgeMaxInizio int = 30
@@ -23,8 +23,8 @@ var Clock uint
 var NumClock uint
 var LivelloSblocco int = 1
 var Possibilita int = 5
-var ValoreNutrizionale int =10
-var ValoreNutrizionaleCarcassa int =5
+var ValoreNutrizionale int =15
+var ValoreNutrizionaleCarcassa int =10
 var ZonaCiboX int
 var ZonaCiboY int
 
@@ -56,13 +56,13 @@ func main() { //FUNZIONE MAIN
 	fmt.Scan(&SaluteIniziale)
 	fmt.Println("Inserisci il costo di uno spostamento iniziale (riduce l'energia ad ogni movimento) [default = 5]: ")
 	fmt.Scan(&CostoMovIniziale)
-	fmt.Println("Inserisci il costo di una riproduzione iniziale (riduce l'energia ad ogni riproduzione) [default = 50]: ")
+	fmt.Println("Inserisci il costo di una riproduzione iniziale (riduce l'energia ad ogni riproduzione) [default = 40]: ")
 	fmt.Scan(&CostoSexIniziale)
 	fmt.Println("Inserisci i secondi di vita massimi (limita la durata della vita) [default = 30]: ")
 	fmt.Scan(&AgeMaxInizio)
-	fmt.Println("Inserisci il valore nutrizionale del cibo (di quanto aumenta l'energia di chi lo mangia) [default = 10]: ")
+	fmt.Println("Inserisci il valore nutrizionale del cibo (di quanto aumenta l'energia di chi lo mangia) [default = 15]: ")
 	fmt.Scan(&ValoreNutrizionale)
-	fmt.Println("Inserisci il valore nutrizionale delle carcasse (di quanto aumenta l'energia di chi lo mangia) [default = 5]: ")
+	fmt.Println("Inserisci il valore nutrizionale delle carcasse (di quanto aumenta l'energia di chi lo mangia) [default = 10]: ")
 	fmt.Scan(&ValoreNutrizionaleCarcassa)
 	fmt.Println("Inserisci il grado di evoluzione iniziale (se maggiore di zero migliora le prestazioni vitali)[default = 0]: ")
 	fmt.Scan(&EvoluzioneIniziale)
@@ -254,7 +254,7 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 			}
 		}
 
-		if (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health-(Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura)*10)>Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex {		//se ha energia a sufficienza per riprodursi
+		if (Matrix[nuovaPosizioneH][nuovaPosizioneW].Health-(Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura)*5)>Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex {		//se ha energia a sufficienza per riprodursi
 			Matrix[h][w] = Costruttore(Matrix[nuovaPosizioneH][nuovaPosizioneW].Razza, Matrix[nuovaPosizioneH][nuovaPosizioneW].Evoluzione, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoMov, Matrix[nuovaPosizioneH][nuovaPosizioneW].CostoSex, Matrix[nuovaPosizioneH][nuovaPosizioneW].Premura, SaluteIniziale, AgeMaxInizio)
 		}
 
