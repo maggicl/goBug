@@ -21,7 +21,7 @@ var PremuraIniziale int = 10
 var AgeMaxInizio int = 30
 var Clock uint
 var NumClock uint
-var LivelloSblocco int = 2
+var LivelloSblocco int = 1
 var Possibilita int = 5
 var ValoreNutrizionale int =10
 var ValoreNutrizionaleCarcassa int =5
@@ -209,9 +209,9 @@ func muovi(h int, w int) { //FUNZIONE MUOVI:	aggiorna la posizione di tutti gli 
 }
 
 	if !trovato {
-		direzCasVert = rand.Intn(2)
+		direzCasVert = rand.Intn(3)
 		direzCasVert--
-		direzCasOriz = rand.Intn(2)
+		direzCasOriz = rand.Intn(3)
 		direzCasOriz--
 	}
 	nuovaPosizioneH := h + direzCasVert //aggiornamento posizione verticale
